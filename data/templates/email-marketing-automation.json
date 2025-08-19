@@ -1,0 +1,212 @@
+{
+    "id": "email-marketing-automation",
+    "name": "Email Marketing Automation",
+    "description": "Automated email marketing workflow for lead nurturing and conversion optimization",
+    "category": "Marketing Automation",
+    "tags": [
+        "email-marketing",
+        "automation",
+        "lead-nurturing",
+        "conversion",
+        "personalization"
+    ],
+    "author": "Marketing Team",
+    "createdAt": "2024-01-15T00:00:00.000Z",
+    "updatedAt": "2024-02-05T00:00:00.000Z",
+    "downloads": 234,
+    "rating": 4.8,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 6,
+    "complexity": "intermediate",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "lead-analyzer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 100,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Lead Analyzer",
+                    "label": "Lead Analyzer",
+                    "description": "Analyzes lead behavior and preferences for personalized email targeting",
+                    "systemPrompt": "Analyze lead data including demographics, behavior patterns, engagement history, and preferences. Categorize leads based on their stage in the buyer's journey and recommend personalized email strategies.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "email-composer-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Email Composer",
+                    "label": "Email Composer",
+                    "description": "Creates personalized email content based on lead analysis",
+                    "systemPrompt": "Create compelling, personalized email content based on lead analysis. Write subject lines that drive opens, content that engages, and clear calls-to-action that convert. Adapt tone and messaging to the lead's profile and journey stage.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "copywriting",
+                        "personalization",
+                        "email-marketing",
+                        "conversion-optimization"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "send-time-optimizer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 400,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Send Time Optimizer",
+                    "label": "Send Time Optimizer",
+                    "description": "Determines optimal send times based on recipient behavior patterns",
+                    "systemPrompt": "Analyze recipient timezone, past engagement patterns, and industry best practices to determine the optimal send time for maximum open and click rates. Consider factors like job role, industry, and personal engagement history.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "engagement-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 700,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Engagement Router",
+                    "label": "Engagement Router",
+                    "description": "Routes leads based on email engagement levels",
+                    "condition": "if (openRate > 50 && clickRate > 10) { return 'high-engagement'; } else if (openRate > 20) { return 'medium-engagement'; } else { return 'low-engagement'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "follow-up-scheduler-1",
+                "type": "tool",
+                "position": {
+                    "x": 1000,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Follow-up Scheduler",
+                    "label": "Follow-up Scheduler",
+                    "description": "Schedules follow-up emails based on engagement patterns",
+                    "parameters": {
+                        "followUpDelay": {
+                            "type": "select",
+                            "options": [
+                                "24 hours",
+                                "3 days",
+                                "1 week",
+                                "2 weeks"
+                            ],
+                            "placeholder": "Select follow-up delay"
+                        },
+                        "maxFollowUps": {
+                            "type": "number",
+                            "min": 1,
+                            "max": 10,
+                            "placeholder": "Maximum follow-up emails"
+                        },
+                        "stopOnEngagement": {
+                            "type": "boolean",
+                            "label": "Stop follow-ups after engagement"
+                        }
+                    },
+                    "parameterValues": {
+                        "followUpDelay": "3 days",
+                        "maxFollowUps": 3,
+                        "stopOnEngagement": true
+                    }
+                }
+            },
+            {
+                "id": "lead-scorer-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Lead Scorer",
+                    "label": "Lead Scorer",
+                    "description": "Scores leads based on engagement and readiness to buy",
+                    "systemPrompt": "Calculate lead scores based on email engagement, website behavior, demographic data, and interaction history. Assign scores that reflect the likelihood of conversion and readiness to engage with sales team.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "lead-scoring",
+                        "analytics",
+                        "behavioral-analysis"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "lead-analyzer-1",
+                "target": "email-composer-1",
+                "type": "default"
+            },
+            {
+                "id": "e1-3",
+                "source": "lead-analyzer-1",
+                "target": "send-time-optimizer-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-4",
+                "source": "email-composer-1",
+                "target": "engagement-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "send-time-optimizer-1",
+                "target": "engagement-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "engagement-router-1",
+                "target": "follow-up-scheduler-1",
+                "type": "default",
+                "label": "high-engagement"
+            },
+            {
+                "id": "e4-6",
+                "source": "engagement-router-1",
+                "target": "lead-scorer-1",
+                "type": "default",
+                "label": "medium-engagement"
+            },
+            {
+                "id": "e4-6b",
+                "source": "engagement-router-1",
+                "target": "lead-scorer-1",
+                "type": "default",
+                "label": "low-engagement"
+            },
+            {
+                "id": "e5-6",
+                "source": "follow-up-scheduler-1",
+                "target": "lead-scorer-1",
+                "type": "default"
+            }
+        ]
+    }
+}

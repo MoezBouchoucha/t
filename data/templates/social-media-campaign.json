@@ -1,0 +1,340 @@
+{
+    "id": "social-media-campaign",
+    "name": "Social Media Campaign Manager",
+    "description": "Comprehensive social media campaign workflow from content creation to performance analysis",
+    "category": "Social Media",
+    "tags": [
+        "social-media",
+        "campaign-management",
+        "content-creation",
+        "analytics",
+        "engagement"
+    ],
+    "author": "Social Media Team",
+    "createdAt": "2024-01-25T00:00:00.000Z",
+    "updatedAt": "2024-02-15T00:00:00.000Z",
+    "downloads": 312,
+    "rating": 4.9,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 8,
+    "complexity": "intermediate",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "trend-analyzer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 100,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Trend Analyzer",
+                    "label": "Trend Analyzer",
+                    "description": "Analyzes current social media trends and hashtags",
+                    "systemPrompt": "Analyze current social media trends, popular hashtags, viral content patterns, and audience engagement behaviors. Identify opportunities for trend-jacking and content that resonates with the target audience across different platforms.",
+                    "model": "gpt-4",
+                    "strategy": "creative",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "content-creator-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Content Creator",
+                    "label": "Content Creator",
+                    "description": "Creates engaging social media content across platforms",
+                    "systemPrompt": "Create engaging, platform-specific social media content. Adapt messaging, tone, and format for each platform (Instagram, Twitter, Facebook, LinkedIn, TikTok). Include relevant hashtags, engaging captions, and call-to-actions that drive engagement.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "content-creation",
+                        "platform-optimization",
+                        "hashtag-strategy",
+                        "engagement-optimization"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "visual-coordinator-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Visual Coordinator",
+                    "label": "Visual Coordinator",
+                    "description": "Coordinates visual content and design requirements",
+                    "systemPrompt": "Coordinate visual content requirements including image specifications, video formats, graphic design needs, and brand consistency. Provide detailed briefs for visual assets and ensure all content aligns with brand guidelines.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "visual-coordination",
+                        "brand-consistency",
+                        "design-specification",
+                        "asset-management"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "platform-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 700,
+                    "y": 125
+                },
+                "data": {
+                    "name": "Platform Router",
+                    "label": "Platform Router",
+                    "description": "Routes content to appropriate social media platforms",
+                    "condition": "if (contentType === 'video' && platform === 'TikTok') { return 'tiktok'; } else if (contentType === 'professional' && platform === 'LinkedIn') { return 'linkedin'; } else if (contentType === 'visual' && platform === 'Instagram') { return 'instagram'; } else { return 'multi-platform'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "scheduler-1",
+                "type": "tool",
+                "position": {
+                    "x": 1000,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Content Scheduler",
+                    "label": "Content Scheduler",
+                    "description": "Schedules posts for optimal engagement times",
+                    "parameters": {
+                        "platforms": {
+                            "type": "multiselect",
+                            "options": [
+                                "Instagram",
+                                "Twitter",
+                                "Facebook",
+                                "LinkedIn",
+                                "TikTok",
+                                "YouTube"
+                            ],
+                            "placeholder": "Select platforms"
+                        },
+                        "scheduleType": {
+                            "type": "select",
+                            "options": [
+                                "Optimal times",
+                                "Custom schedule",
+                                "Immediate",
+                                "Peak hours only"
+                            ],
+                            "placeholder": "Scheduling strategy"
+                        },
+                        "frequency": {
+                            "type": "select",
+                            "options": [
+                                "Daily",
+                                "Every other day",
+                                "Weekly",
+                                "Custom"
+                            ],
+                            "placeholder": "Posting frequency"
+                        },
+                        "timezone": {
+                            "type": "text",
+                            "placeholder": "Target timezone"
+                        }
+                    },
+                    "parameterValues": {
+                        "platforms": [
+                            "Instagram",
+                            "Twitter",
+                            "LinkedIn"
+                        ],
+                        "scheduleType": "Optimal times",
+                        "frequency": "Daily",
+                        "timezone": "EST"
+                    }
+                }
+            },
+            {
+                "id": "engagement-monitor-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Engagement Monitor",
+                    "label": "Engagement Monitor",
+                    "description": "Monitors and responds to social media engagement",
+                    "systemPrompt": "Monitor social media engagement including comments, mentions, shares, and direct messages. Respond appropriately to user interactions, handle customer service inquiries, and escalate issues when necessary. Maintain brand voice and tone in all responses.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "engagement-monitoring",
+                        "community-management",
+                        "customer-service",
+                        "brand-voice-consistency"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "performance-analyzer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 1300,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Performance Analyzer",
+                    "label": "Performance Analyzer",
+                    "description": "Analyzes campaign performance and engagement metrics",
+                    "systemPrompt": "Analyze social media campaign performance including reach, engagement rates, click-through rates, conversions, and ROI. Identify top-performing content, optimal posting times, and audience preferences. Provide actionable insights for campaign optimization.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "report-dashboard-1",
+                "type": "tool",
+                "position": {
+                    "x": 1600,
+                    "y": 125
+                },
+                "data": {
+                    "name": "Analytics Dashboard",
+                    "label": "Analytics Dashboard",
+                    "description": "Generates comprehensive campaign performance reports",
+                    "parameters": {
+                        "reportPeriod": {
+                            "type": "select",
+                            "options": [
+                                "Daily",
+                                "Weekly",
+                                "Monthly",
+                                "Campaign duration",
+                                "Custom range"
+                            ],
+                            "placeholder": "Report period"
+                        },
+                        "metrics": {
+                            "type": "multiselect",
+                            "options": [
+                                "Reach",
+                                "Impressions",
+                                "Engagement rate",
+                                "Click-through rate",
+                                "Conversions",
+                                "ROI",
+                                "Follower growth",
+                                "Share rate"
+                            ],
+                            "placeholder": "Select metrics to include"
+                        },
+                        "visualization": {
+                            "type": "boolean",
+                            "label": "Include charts and graphs"
+                        },
+                        "compareToBaseline": {
+                            "type": "boolean",
+                            "label": "Compare to previous period"
+                        }
+                    },
+                    "parameterValues": {
+                        "reportPeriod": "Weekly",
+                        "metrics": [
+                            "Reach",
+                            "Engagement rate",
+                            "Click-through rate",
+                            "Conversions"
+                        ],
+                        "visualization": true,
+                        "compareToBaseline": true
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "trend-analyzer-1",
+                "target": "content-creator-1",
+                "type": "default"
+            },
+            {
+                "id": "e1-3",
+                "source": "trend-analyzer-1",
+                "target": "visual-coordinator-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-4",
+                "source": "content-creator-1",
+                "target": "platform-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "visual-coordinator-1",
+                "target": "platform-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "platform-router-1",
+                "target": "scheduler-1",
+                "type": "default",
+                "label": "tiktok"
+            },
+            {
+                "id": "e4-5b",
+                "source": "platform-router-1",
+                "target": "scheduler-1",
+                "type": "default",
+                "label": "linkedin"
+            },
+            {
+                "id": "e4-5c",
+                "source": "platform-router-1",
+                "target": "scheduler-1",
+                "type": "default",
+                "label": "instagram"
+            },
+            {
+                "id": "e4-5d",
+                "source": "platform-router-1",
+                "target": "scheduler-1",
+                "type": "default",
+                "label": "multi-platform"
+            },
+            {
+                "id": "e4-6",
+                "source": "platform-router-1",
+                "target": "engagement-monitor-1",
+                "type": "default"
+            },
+            {
+                "id": "e5-7",
+                "source": "scheduler-1",
+                "target": "performance-analyzer-1",
+                "type": "default"
+            },
+            {
+                "id": "e6-7",
+                "source": "engagement-monitor-1",
+                "target": "performance-analyzer-1",
+                "type": "default"
+            },
+            {
+                "id": "e7-8",
+                "source": "performance-analyzer-1",
+                "target": "report-dashboard-1",
+                "type": "default"
+            }
+        ]
+    }
+}

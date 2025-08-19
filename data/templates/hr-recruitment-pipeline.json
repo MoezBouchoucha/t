@@ -1,0 +1,226 @@
+{
+    "id": "hr-recruitment-pipeline",
+    "name": "HR Recruitment Pipeline",
+    "description": "Streamlined recruitment workflow from job posting to candidate onboarding",
+    "category": "Human Resources",
+    "tags": [
+        "recruitment",
+        "hr",
+        "candidate-screening",
+        "interviewing",
+        "onboarding"
+    ],
+    "author": "HR Team",
+    "createdAt": "2024-02-01T00:00:00.000Z",
+    "updatedAt": "2024-02-25T00:00:00.000Z",
+    "downloads": 89,
+    "rating": 4.4,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 6,
+    "complexity": "intermediate",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "resume-scanner-1",
+                "type": "thinker",
+                "position": {
+                    "x": 100,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Resume Scanner",
+                    "label": "Resume Scanner",
+                    "description": "Scans and analyzes candidate resumes for initial screening",
+                    "systemPrompt": "Analyze candidate resumes for relevant skills, experience, education, and qualifications. Extract key information, assess alignment with job requirements, and provide initial scoring. Identify potential red flags or standout qualifications.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "qualification-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 400,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Qualification Router",
+                    "label": "Qualification Router",
+                    "description": "Routes candidates based on qualification scores",
+                    "condition": "if (qualificationScore >= 85) { return 'interview'; } else if (qualificationScore >= 70) { return 'phone-screen'; } else { return 'reject'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "interview-scheduler-1",
+                "type": "tool",
+                "position": {
+                    "x": 700,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Interview Scheduler",
+                    "label": "Interview Scheduler",
+                    "description": "Schedules interviews and coordinates with hiring team",
+                    "parameters": {
+                        "interviewTypes": {
+                            "type": "multiselect",
+                            "options": [
+                                "Phone screen",
+                                "Video interview",
+                                "In-person interview",
+                                "Technical assessment",
+                                "Panel interview"
+                            ],
+                            "placeholder": "Available interview types"
+                        },
+                        "interviewDuration": {
+                            "type": "select",
+                            "options": [
+                                "30 minutes",
+                                "45 minutes",
+                                "1 hour",
+                                "1.5 hours",
+                                "2 hours"
+                            ],
+                            "placeholder": "Interview duration"
+                        },
+                        "bufferTime": {
+                            "type": "select",
+                            "options": [
+                                "15 minutes",
+                                "30 minutes",
+                                "45 minutes",
+                                "1 hour"
+                            ],
+                            "placeholder": "Buffer time between interviews"
+                        },
+                        "autoConfirm": {
+                            "type": "boolean",
+                            "label": "Auto-confirm available slots"
+                        }
+                    },
+                    "parameterValues": {
+                        "interviewTypes": [
+                            "Video interview",
+                            "Technical assessment"
+                        ],
+                        "interviewDuration": "1 hour",
+                        "bufferTime": "30 minutes",
+                        "autoConfirm": true
+                    }
+                }
+            },
+            {
+                "id": "phone-screener-1",
+                "type": "agent",
+                "position": {
+                    "x": 700,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Phone Screener",
+                    "label": "Phone Screener",
+                    "description": "Conducts initial phone screening calls with candidates",
+                    "systemPrompt": "Conduct professional phone screening calls with candidates. Ask relevant questions about experience, skills, salary expectations, and availability. Assess communication skills, cultural fit, and motivation. Provide consistent evaluation criteria and document findings.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "phone-screening",
+                        "candidate-assessment",
+                        "communication-evaluation",
+                        "culture-fit-assessment"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "feedback-collector-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 125
+                },
+                "data": {
+                    "name": "Feedback Collector",
+                    "label": "Feedback Collector",
+                    "description": "Collects and summarizes interview feedback from hiring team",
+                    "systemPrompt": "Collect detailed feedback from all interviewers and hiring team members. Summarize strengths, concerns, and recommendations. Identify consensus areas and potential disagreements. Prepare comprehensive candidate evaluation reports for decision-making.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "feedback-aggregation",
+                        "evaluation-summarization",
+                        "decision-support",
+                        "team-coordination"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "rejection-notifier-1",
+                "type": "agent",
+                "position": {
+                    "x": 700,
+                    "y": 350
+                },
+                "data": {
+                    "name": "Rejection Notifier",
+                    "label": "Rejection Notifier",
+                    "description": "Sends professional rejection notifications to candidates",
+                    "systemPrompt": "Send professional, respectful rejection notifications to candidates. Provide constructive feedback when appropriate, maintain positive company image, and encourage future applications. Personalize messages based on how far candidates progressed in the process.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "professional-communication",
+                        "candidate-experience",
+                        "feedback-delivery",
+                        "brand-management"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "resume-scanner-1",
+                "target": "qualification-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "qualification-router-1",
+                "target": "interview-scheduler-1",
+                "type": "default",
+                "label": "interview"
+            },
+            {
+                "id": "e2-4",
+                "source": "qualification-router-1",
+                "target": "phone-screener-1",
+                "type": "default",
+                "label": "phone-screen"
+            },
+            {
+                "id": "e2-6",
+                "source": "qualification-router-1",
+                "target": "rejection-notifier-1",
+                "type": "default",
+                "label": "reject"
+            },
+            {
+                "id": "e3-5",
+                "source": "interview-scheduler-1",
+                "target": "feedback-collector-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "phone-screener-1",
+                "target": "feedback-collector-1",
+                "type": "default"
+            }
+        ]
+    }
+}

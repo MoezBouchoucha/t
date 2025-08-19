@@ -1,0 +1,261 @@
+{
+    "id": "lead-generation-qualification",
+    "name": "Lead Generation & Qualification",
+    "description": "Automated lead generation, scoring, and qualification workflow with intelligent routing and follow-up management",
+    "category": "Sales & Marketing",
+    "tags": [
+        "lead-generation",
+        "qualification",
+        "scoring",
+        "crm",
+        "automation"
+    ],
+    "author": "Workflow Team",
+    "createdAt": "2024-01-05T00:00:00.000Z",
+    "updatedAt": "2024-01-30T00:00:00.000Z",
+    "downloads": 312,
+    "rating": 4.9,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 7,
+    "complexity": "medium",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "lead-capture-1",
+                "type": "tool",
+                "position": {
+                    "x": 100,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Lead Capture",
+                    "label": "Lead Capture",
+                    "description": "Captures leads from various sources and normalizes data",
+                    "parameters": {
+                        "sources": {
+                            "type": "select",
+                            "options": [
+                                "Website Forms",
+                                "Social Media",
+                                "Email Campaigns",
+                                "All Sources"
+                            ],
+                            "placeholder": "Select lead sources"
+                        },
+                        "requiredFields": {
+                            "type": "text",
+                            "placeholder": "Required fields (comma-separated)"
+                        },
+                        "duplicateHandling": {
+                            "type": "select",
+                            "options": [
+                                "merge",
+                                "skip",
+                                "create-new"
+                            ],
+                            "placeholder": "How to handle duplicates"
+                        }
+                    },
+                    "parameterValues": {
+                        "sources": "All Sources",
+                        "requiredFields": "email, company, phone",
+                        "duplicateHandling": "merge"
+                    }
+                }
+            },
+            {
+                "id": "data-enricher-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Data Enricher",
+                    "label": "Data Enricher",
+                    "description": "Enriches lead data with additional company and contact information",
+                    "systemPrompt": "You are a data enrichment specialist. Given basic lead information, research and gather additional relevant data about the company, industry, size, technology stack, and contact details. Provide accurate, up-to-date information to help with lead qualification.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "data-research",
+                        "company-intelligence",
+                        "contact-enrichment"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "lead-scorer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 700,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Lead Scorer",
+                    "label": "Lead Scorer",
+                    "description": "Scores leads based on multiple criteria and qualification factors",
+                    "systemPrompt": "Analyze lead data to assign a qualification score. Consider factors like company size, industry fit, budget indicators, decision-making authority, timeline, and engagement level. Use a scoring model from 0-100 and provide reasoning for the score.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "qualification-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 700,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Qualification Router",
+                    "label": "Qualification Router",
+                    "description": "Routes leads based on qualification score and criteria",
+                    "condition": "if (score >= 80) { return 'hot-lead'; } else if (score >= 60) { return 'warm-lead'; } else if (score >= 40) { return 'nurture'; } else { return 'disqualify'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "hot-lead-handler-1",
+                "type": "agent",
+                "position": {
+                    "x": 500,
+                    "y": 450
+                },
+                "data": {
+                    "name": "Hot Lead Handler",
+                    "label": "Hot Lead Handler",
+                    "description": "Handles high-scoring leads with immediate follow-up",
+                    "systemPrompt": "You handle hot leads with high qualification scores. Create immediate, personalized outreach messages that highlight value propositions relevant to their industry and pain points. Schedule follow-up activities and alert sales teams for rapid response.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "personalized-outreach",
+                        "value-proposition",
+                        "urgency-handling"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "nurture-sequencer-1",
+                "type": "agent",
+                "position": {
+                    "x": 900,
+                    "y": 450
+                },
+                "data": {
+                    "name": "Nurture Sequencer",
+                    "label": "Nurture Sequencer",
+                    "description": "Creates nurturing sequences for medium-scoring leads",
+                    "systemPrompt": "Create nurturing email sequences for leads that need more development. Design educational content, case studies, and valuable resources that build trust and move leads through the qualification process over time.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "content-creation",
+                        "sequence-planning",
+                        "educational-content"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "crm-integrator-1",
+                "type": "tool",
+                "position": {
+                    "x": 1100,
+                    "y": 200
+                },
+                "data": {
+                    "name": "CRM Integration",
+                    "label": "CRM Integration",
+                    "description": "Integrates qualified leads with CRM system",
+                    "parameters": {
+                        "crmSystem": {
+                            "type": "select",
+                            "options": [
+                                "Salesforce",
+                                "HubSpot",
+                                "Pipedrive",
+                                "Custom"
+                            ],
+                            "placeholder": "Select CRM system"
+                        },
+                        "leadStatus": {
+                            "type": "select",
+                            "options": [
+                                "New",
+                                "Qualified",
+                                "Working",
+                                "Converted"
+                            ],
+                            "placeholder": "Default lead status"
+                        },
+                        "assignmentRules": {
+                            "type": "text",
+                            "placeholder": "Assignment rules"
+                        }
+                    },
+                    "parameterValues": {
+                        "crmSystem": "Salesforce",
+                        "leadStatus": "Qualified",
+                        "assignmentRules": "Round-robin by territory"
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "lead-capture-1",
+                "target": "data-enricher-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "data-enricher-1",
+                "target": "lead-scorer-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-4",
+                "source": "data-enricher-1",
+                "target": "qualification-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "lead-scorer-1",
+                "target": "qualification-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "qualification-router-1",
+                "target": "hot-lead-handler-1",
+                "type": "default",
+                "label": "hot-lead"
+            },
+            {
+                "id": "e4-6",
+                "source": "qualification-router-1",
+                "target": "nurture-sequencer-1",
+                "type": "default",
+                "label": "nurture"
+            },
+            {
+                "id": "e5-7",
+                "source": "hot-lead-handler-1",
+                "target": "crm-integrator-1",
+                "type": "default"
+            },
+            {
+                "id": "e6-7",
+                "source": "nurture-sequencer-1",
+                "target": "crm-integrator-1",
+                "type": "default"
+            }
+        ]
+    }
+}

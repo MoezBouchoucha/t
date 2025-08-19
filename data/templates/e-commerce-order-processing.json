@@ -1,0 +1,399 @@
+{
+    "id": "e-commerce-order-processing",
+    "name": "E-commerce Order Processing",
+    "description": "Automated order processing workflow from payment to fulfillment and customer communication",
+    "category": "E-commerce",
+    "tags": [
+        "order-processing",
+        "e-commerce",
+        "fulfillment",
+        "inventory",
+        "customer-service"
+    ],
+    "author": "E-commerce Team",
+    "createdAt": "2024-01-30T00:00:00.000Z",
+    "updatedAt": "2024-02-20T00:00:00.000Z",
+    "downloads": 156,
+    "rating": 4.5,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 9,
+    "complexity": "advanced",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "payment-validator-1",
+                "type": "tool",
+                "position": {
+                    "x": 100,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Payment Validator",
+                    "label": "Payment Validator",
+                    "description": "Validates payment information and processes transactions",
+                    "parameters": {
+                        "paymentMethods": {
+                            "type": "multiselect",
+                            "options": [
+                                "Credit Card",
+                                "PayPal",
+                                "Apple Pay",
+                                "Google Pay",
+                                "Bank Transfer",
+                                "Cryptocurrency"
+                            ],
+                            "placeholder": "Accepted payment methods"
+                        },
+                        "fraudDetection": {
+                            "type": "boolean",
+                            "label": "Enable fraud detection"
+                        },
+                        "verificationLevel": {
+                            "type": "select",
+                            "options": [
+                                "Basic",
+                                "Standard",
+                                "Enhanced",
+                                "Maximum"
+                            ],
+                            "placeholder": "Verification level"
+                        },
+                        "retryAttempts": {
+                            "type": "number",
+                            "min": 1,
+                            "max": 5,
+                            "placeholder": "Failed payment retry attempts"
+                        }
+                    },
+                    "parameterValues": {
+                        "paymentMethods": [
+                            "Credit Card",
+                            "PayPal",
+                            "Apple Pay"
+                        ],
+                        "fraudDetection": true,
+                        "verificationLevel": "Standard",
+                        "retryAttempts": 3
+                    }
+                }
+            },
+            {
+                "id": "inventory-checker-1",
+                "type": "thinker",
+                "position": {
+                    "x": 400,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Inventory Checker",
+                    "label": "Inventory Checker",
+                    "description": "Checks product availability and reserves inventory",
+                    "systemPrompt": "Check product availability across multiple warehouses and locations. Verify stock levels, reserve items for the order, and identify any potential fulfillment issues. Consider lead times, shipping zones, and inventory allocation strategies.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "order-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 700,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Order Router",
+                    "label": "Order Router",
+                    "description": "Routes orders based on payment status and inventory availability",
+                    "condition": "if (paymentStatus === 'confirmed' && inventoryAvailable === true) { return 'process'; } else if (paymentStatus === 'confirmed' && inventoryAvailable === false) { return 'backorder'; } else { return 'failed'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "fulfillment-coordinator-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Fulfillment Coordinator",
+                    "label": "Fulfillment Coordinator",
+                    "description": "Coordinates order fulfillment and shipping logistics",
+                    "systemPrompt": "Coordinate order fulfillment including picking, packing, and shipping. Select optimal shipping methods based on customer preferences, item urgency, and cost considerations. Generate shipping labels and tracking information.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "logistics-coordination",
+                        "shipping-optimization",
+                        "warehouse-management",
+                        "tracking-generation"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "shipping-calculator-1",
+                "type": "tool",
+                "position": {
+                    "x": 1300,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Shipping Calculator",
+                    "label": "Shipping Calculator",
+                    "description": "Calculates shipping costs and delivery estimates",
+                    "parameters": {
+                        "carriers": {
+                            "type": "multiselect",
+                            "options": [
+                                "UPS",
+                                "FedEx",
+                                "USPS",
+                                "DHL",
+                                "Local Delivery"
+                            ],
+                            "placeholder": "Available carriers"
+                        },
+                        "shippingOptions": {
+                            "type": "multiselect",
+                            "options": [
+                                "Standard",
+                                "Express",
+                                "Overnight",
+                                "Same-day",
+                                "Free shipping"
+                            ],
+                            "placeholder": "Shipping options"
+                        },
+                        "insuranceThreshold": {
+                            "type": "number",
+                            "placeholder": "Minimum order value for insurance"
+                        },
+                        "freeShippingThreshold": {
+                            "type": "number",
+                            "placeholder": "Minimum order for free shipping"
+                        }
+                    },
+                    "parameterValues": {
+                        "carriers": [
+                            "UPS",
+                            "FedEx",
+                            "USPS"
+                        ],
+                        "shippingOptions": [
+                            "Standard",
+                            "Express",
+                            "Overnight"
+                        ],
+                        "insuranceThreshold": 100,
+                        "freeShippingThreshold": 50
+                    }
+                }
+            },
+            {
+                "id": "notification-manager-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Notification Manager",
+                    "label": "Notification Manager",
+                    "description": "Manages customer notifications throughout the order process",
+                    "systemPrompt": "Send timely and informative notifications to customers about their order status. Include order confirmation, payment confirmation, shipping updates, delivery notifications, and any relevant delays or issues. Personalize messages and provide helpful information.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "customer-communication",
+                        "notification-automation",
+                        "personalization",
+                        "multi-channel-messaging"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "backorder-handler-1",
+                "type": "agent",
+                "position": {
+                    "x": 1000,
+                    "y": 200
+                },
+                "data": {
+                    "name": "Backorder Handler",
+                    "label": "Backorder Handler",
+                    "description": "Handles backorder situations and customer alternatives",
+                    "systemPrompt": "Handle backorder situations by providing customers with estimated restock dates, alternative product suggestions, or partial fulfillment options. Maintain customer satisfaction by offering solutions and keeping them informed of order status changes.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "backorder-management",
+                        "alternative-suggestions",
+                        "customer-retention",
+                        "inventory-forecasting"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "order-tracker-1",
+                "type": "tool",
+                "position": {
+                    "x": 1600,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Order Tracker",
+                    "label": "Order Tracker",
+                    "description": "Tracks order progress and provides real-time updates",
+                    "parameters": {
+                        "trackingFrequency": {
+                            "type": "select",
+                            "options": [
+                                "Real-time",
+                                "Hourly",
+                                "Daily",
+                                "At milestones"
+                            ],
+                            "placeholder": "Tracking update frequency"
+                        },
+                        "notificationChannels": {
+                            "type": "multiselect",
+                            "options": [
+                                "Email",
+                                "SMS",
+                                "Push notification",
+                                "In-app",
+                                "Phone call"
+                            ],
+                            "placeholder": "Notification channels"
+                        },
+                        "trackingDetails": {
+                            "type": "multiselect",
+                            "options": [
+                                "Location",
+                                "Estimated delivery",
+                                "Carrier info",
+                                "Package status",
+                                "Delivery attempt history"
+                            ],
+                            "placeholder": "Tracking information to include"
+                        }
+                    },
+                    "parameterValues": {
+                        "trackingFrequency": "At milestones",
+                        "notificationChannels": [
+                            "Email",
+                            "SMS"
+                        ],
+                        "trackingDetails": [
+                            "Location",
+                            "Estimated delivery",
+                            "Package status"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "failure-handler-1",
+                "type": "agent",
+                "position": {
+                    "x": 700,
+                    "y": 400
+                },
+                "data": {
+                    "name": "Failure Handler",
+                    "label": "Failure Handler",
+                    "description": "Handles order failures and provides customer support",
+                    "systemPrompt": "Handle order failures including payment issues, inventory problems, and system errors. Provide clear explanations to customers, offer solutions or alternatives, and ensure prompt resolution. Escalate complex issues to human support when necessary.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "error-resolution",
+                        "customer-support",
+                        "problem-escalation",
+                        "issue-tracking"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "payment-validator-1",
+                "target": "inventory-checker-1",
+                "type": "default"
+            },
+            {
+                "id": "e1-3",
+                "source": "payment-validator-1",
+                "target": "order-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "inventory-checker-1",
+                "target": "order-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "order-router-1",
+                "target": "fulfillment-coordinator-1",
+                "type": "default",
+                "label": "process"
+            },
+            {
+                "id": "e3-7",
+                "source": "order-router-1",
+                "target": "backorder-handler-1",
+                "type": "default",
+                "label": "backorder"
+            },
+            {
+                "id": "e3-9",
+                "source": "order-router-1",
+                "target": "failure-handler-1",
+                "type": "default",
+                "label": "failed"
+            },
+            {
+                "id": "e4-5",
+                "source": "fulfillment-coordinator-1",
+                "target": "shipping-calculator-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-6",
+                "source": "fulfillment-coordinator-1",
+                "target": "notification-manager-1",
+                "type": "default"
+            },
+            {
+                "id": "e5-8",
+                "source": "shipping-calculator-1",
+                "target": "order-tracker-1",
+                "type": "default"
+            },
+            {
+                "id": "e6-8",
+                "source": "notification-manager-1",
+                "target": "order-tracker-1",
+                "type": "default"
+            },
+            {
+                "id": "e7-6",
+                "source": "backorder-handler-1",
+                "target": "notification-manager-1",
+                "type": "default"
+            },
+            {
+                "id": "e9-6",
+                "source": "failure-handler-1",
+                "target": "notification-manager-1",
+                "type": "default"
+            }
+        ]
+    }
+}

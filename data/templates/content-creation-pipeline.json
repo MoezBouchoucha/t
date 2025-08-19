@@ -1,0 +1,269 @@
+{
+    "id": "content-creation-pipeline",
+    "name": "Content Creation Pipeline",
+    "description": "End-to-end content creation workflow from ideation to publication with quality assurance and optimization",
+    "category": "Content & Marketing",
+    "tags": [
+        "content-creation",
+        "seo",
+        "publishing",
+        "quality-assurance",
+        "optimization"
+    ],
+    "author": "Workflow Team",
+    "createdAt": "2024-01-12T00:00:00.000Z",
+    "updatedAt": "2024-02-01T00:00:00.000Z",
+    "downloads": 167,
+    "rating": 4.7,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 8,
+    "complexity": "complex",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "topic-generator-1",
+                "type": "thinker",
+                "position": {
+                    "x": 100,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Topic Generator",
+                    "label": "Topic Generator",
+                    "description": "Generates content topic ideas based on trends and audience needs",
+                    "systemPrompt": "Generate creative and relevant content topic ideas based on current trends, audience interests, and business objectives. Consider SEO potential, engagement factors, and strategic value. Provide multiple topic variations with rationale.",
+                    "model": "gpt-4",
+                    "strategy": "creative",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "research-agent-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Research Agent",
+                    "label": "Research Agent",
+                    "description": "Conducts comprehensive research on selected topics",
+                    "systemPrompt": "Conduct thorough research on the given topic. Gather current information, statistics, expert opinions, case studies, and relevant examples. Ensure accuracy and credibility of sources. Organize findings in a structured format for content creation.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "research",
+                        "fact-checking",
+                        "source-verification"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "content-writer-1",
+                "type": "agent",
+                "position": {
+                    "x": 700,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Content Writer",
+                    "label": "Content Writer",
+                    "description": "Creates engaging, high-quality content based on research",
+                    "systemPrompt": "Create engaging, well-structured content based on the research provided. Write in a compelling style that matches the target audience and brand voice. Include proper headings, subheadings, and formatting. Ensure content is informative, valuable, and actionable.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "writing",
+                        "storytelling",
+                        "brand-voice",
+                        "formatting"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "seo-optimizer-1",
+                "type": "agent",
+                "position": {
+                    "x": 700,
+                    "y": 250
+                },
+                "data": {
+                    "name": "SEO Optimizer",
+                    "label": "SEO Optimizer",
+                    "description": "Optimizes content for search engines and discoverability",
+                    "systemPrompt": "Optimize content for search engines while maintaining readability and value. Suggest relevant keywords, meta descriptions, title tags, and internal linking opportunities. Ensure proper heading structure and optimize for featured snippets.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "seo-optimization",
+                        "keyword-research",
+                        "meta-optimization"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "quality-checker-1",
+                "type": "thinker",
+                "position": {
+                    "x": 1000,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Quality Checker",
+                    "label": "Quality Checker",
+                    "description": "Reviews content for quality, accuracy, and brand compliance",
+                    "systemPrompt": "Review content for quality, accuracy, grammar, and brand compliance. Check for factual errors, inconsistencies, and alignment with brand guidelines. Provide specific feedback and improvement suggestions.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "approval-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 1300,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Approval Router",
+                    "label": "Approval Router",
+                    "description": "Routes content based on quality score for approval or revision",
+                    "condition": "if (qualityScore >= 90) { return 'publish'; } else if (qualityScore >= 75) { return 'minor-edits'; } else { return 'major-revision'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "publisher-1",
+                "type": "tool",
+                "position": {
+                    "x": 1600,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Content Publisher",
+                    "label": "Content Publisher",
+                    "description": "Publishes approved content to selected platforms",
+                    "parameters": {
+                        "platforms": {
+                            "type": "select",
+                            "options": [
+                                "Website",
+                                "Blog",
+                                "Social Media",
+                                "All Platforms"
+                            ],
+                            "placeholder": "Select publishing platforms"
+                        },
+                        "schedule": {
+                            "type": "select",
+                            "options": [
+                                "Immediate",
+                                "Scheduled",
+                                "Draft"
+                            ],
+                            "placeholder": "Publishing schedule"
+                        },
+                        "notifications": {
+                            "type": "boolean",
+                            "label": "Send notifications after publishing"
+                        }
+                    },
+                    "parameterValues": {
+                        "platforms": "All Platforms",
+                        "schedule": "Scheduled",
+                        "notifications": true
+                    }
+                }
+            },
+            {
+                "id": "revision-agent-1",
+                "type": "agent",
+                "position": {
+                    "x": 1600,
+                    "y": 250
+                },
+                "data": {
+                    "name": "Revision Agent",
+                    "label": "Revision Agent",
+                    "description": "Handles content revisions based on quality feedback",
+                    "systemPrompt": "Handle content revisions based on quality feedback. Make necessary improvements while preserving the core message and value. Address specific issues identified in the quality review and ensure all requirements are met.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "editing",
+                        "revision",
+                        "quality-improvement"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "topic-generator-1",
+                "target": "research-agent-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "research-agent-1",
+                "target": "content-writer-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-4",
+                "source": "research-agent-1",
+                "target": "seo-optimizer-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-5",
+                "source": "content-writer-1",
+                "target": "quality-checker-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "seo-optimizer-1",
+                "target": "quality-checker-1",
+                "type": "default"
+            },
+            {
+                "id": "e5-6",
+                "source": "quality-checker-1",
+                "target": "approval-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e6-7",
+                "source": "approval-router-1",
+                "target": "publisher-1",
+                "type": "default",
+                "label": "publish"
+            },
+            {
+                "id": "e6-8",
+                "source": "approval-router-1",
+                "target": "revision-agent-1",
+                "type": "default",
+                "label": "minor-edits"
+            },
+            {
+                "id": "e6-8b",
+                "source": "approval-router-1",
+                "target": "revision-agent-1",
+                "type": "default",
+                "label": "major-revision"
+            },
+            {
+                "id": "e8-5",
+                "source": "revision-agent-1",
+                "target": "quality-checker-1",
+                "type": "default"
+            }
+        ]
+    }
+}

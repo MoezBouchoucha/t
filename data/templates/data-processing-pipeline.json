@@ -1,0 +1,284 @@
+{
+    "id": "data-processing-pipeline",
+    "name": "Data Processing Pipeline",
+    "description": "Automated data processing workflow for cleaning, analyzing, and reporting business data",
+    "category": "Data Analytics",
+    "tags": [
+        "data-processing",
+        "analytics",
+        "automation",
+        "reporting",
+        "data-quality"
+    ],
+    "author": "Data Team",
+    "createdAt": "2024-01-20T00:00:00.000Z",
+    "updatedAt": "2024-02-10T00:00:00.000Z",
+    "downloads": 189,
+    "rating": 4.6,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 7,
+    "complexity": "advanced",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "data-validator-1",
+                "type": "tool",
+                "position": {
+                    "x": 100,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Data Validator",
+                    "label": "Data Validator",
+                    "description": "Validates incoming data for quality and completeness",
+                    "parameters": {
+                        "validationRules": {
+                            "type": "multiselect",
+                            "options": [
+                                "Required fields check",
+                                "Data type validation",
+                                "Range validation",
+                                "Format validation",
+                                "Duplicate detection"
+                            ],
+                            "placeholder": "Select validation rules"
+                        },
+                        "errorHandling": {
+                            "type": "select",
+                            "options": [
+                                "Skip invalid records",
+                                "Quarantine for review",
+                                "Stop processing",
+                                "Auto-correct where possible"
+                            ],
+                            "placeholder": "Error handling strategy"
+                        },
+                        "reportErrors": {
+                            "type": "boolean",
+                            "label": "Generate error report"
+                        }
+                    },
+                    "parameterValues": {
+                        "validationRules": [
+                            "Required fields check",
+                            "Data type validation",
+                            "Duplicate detection"
+                        ],
+                        "errorHandling": "Quarantine for review",
+                        "reportErrors": true
+                    }
+                }
+            },
+            {
+                "id": "data-cleaner-1",
+                "type": "agent",
+                "position": {
+                    "x": 400,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Data Cleaner",
+                    "label": "Data Cleaner",
+                    "description": "Cleans and standardizes data for processing",
+                    "systemPrompt": "Clean and standardize the provided data. Remove duplicates, fix formatting issues, handle missing values appropriately, and ensure data consistency. Apply business rules for data normalization and prepare data for analysis.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "data-cleaning",
+                        "standardization",
+                        "deduplication",
+                        "data-transformation"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "quality-checker-1",
+                "type": "thinker",
+                "position": {
+                    "x": 700,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Quality Checker",
+                    "label": "Quality Checker",
+                    "description": "Assesses data quality and completeness after cleaning",
+                    "systemPrompt": "Evaluate the quality of cleaned data. Check for completeness, accuracy, consistency, and reliability. Identify any remaining issues and assess whether the data meets quality standards for downstream processing.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "quality-router-1",
+                "type": "conditional",
+                "position": {
+                    "x": 1000,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Quality Router",
+                    "label": "Quality Router",
+                    "description": "Routes data based on quality assessment results",
+                    "condition": "if (qualityScore >= 95) { return 'proceed'; } else if (qualityScore >= 80) { return 'warning'; } else { return 'reject'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "data-analyzer-1",
+                "type": "agent",
+                "position": {
+                    "x": 1300,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Data Analyzer",
+                    "label": "Data Analyzer",
+                    "description": "Performs statistical analysis and generates insights",
+                    "systemPrompt": "Analyze the cleaned data to extract meaningful insights. Perform statistical analysis, identify trends, patterns, and anomalies. Generate key metrics and prepare findings for reporting. Focus on actionable insights that drive business value.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "statistical-analysis",
+                        "pattern-recognition",
+                        "trend-analysis",
+                        "insight-generation"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "report-generator-1",
+                "type": "tool",
+                "position": {
+                    "x": 1600,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Report Generator",
+                    "label": "Report Generator",
+                    "description": "Generates automated reports with visualizations",
+                    "parameters": {
+                        "reportType": {
+                            "type": "select",
+                            "options": [
+                                "Executive Summary",
+                                "Detailed Analysis",
+                                "Dashboard",
+                                "Custom Report"
+                            ],
+                            "placeholder": "Select report type"
+                        },
+                        "includeCharts": {
+                            "type": "boolean",
+                            "label": "Include data visualizations"
+                        },
+                        "distribution": {
+                            "type": "multiselect",
+                            "options": [
+                                "Email",
+                                "Dashboard",
+                                "File Export",
+                                "API"
+                            ],
+                            "placeholder": "Distribution channels"
+                        },
+                        "schedule": {
+                            "type": "select",
+                            "options": [
+                                "Immediate",
+                                "Daily",
+                                "Weekly",
+                                "Monthly"
+                            ],
+                            "placeholder": "Report schedule"
+                        }
+                    },
+                    "parameterValues": {
+                        "reportType": "Executive Summary",
+                        "includeCharts": true,
+                        "distribution": [
+                            "Email",
+                            "Dashboard"
+                        ],
+                        "schedule": "Weekly"
+                    }
+                }
+            },
+            {
+                "id": "error-handler-1",
+                "type": "agent",
+                "position": {
+                    "x": 1300,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Error Handler",
+                    "label": "Error Handler",
+                    "description": "Handles data quality issues and provides recommendations",
+                    "systemPrompt": "Handle data quality issues identified during processing. Analyze error patterns, suggest corrections, and provide recommendations for improving data quality. Create detailed error reports with actionable next steps.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "error-analysis",
+                        "recommendation-engine",
+                        "quality-improvement"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "data-validator-1",
+                "target": "data-cleaner-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "data-cleaner-1",
+                "target": "quality-checker-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "quality-checker-1",
+                "target": "quality-router-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "quality-router-1",
+                "target": "data-analyzer-1",
+                "type": "default",
+                "label": "proceed"
+            },
+            {
+                "id": "e4-5b",
+                "source": "quality-router-1",
+                "target": "data-analyzer-1",
+                "type": "default",
+                "label": "warning"
+            },
+            {
+                "id": "e4-7",
+                "source": "quality-router-1",
+                "target": "error-handler-1",
+                "type": "default",
+                "label": "reject"
+            },
+            {
+                "id": "e5-6",
+                "source": "data-analyzer-1",
+                "target": "report-generator-1",
+                "type": "default"
+            },
+            {
+                "id": "e7-2",
+                "source": "error-handler-1",
+                "target": "data-cleaner-1",
+                "type": "default"
+            }
+        ]
+    }
+}

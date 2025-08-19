@@ -1,0 +1,193 @@
+{
+    "id": "customer-support-automation",
+    "name": "Customer Support Automation",
+    "description": "Automated customer support workflow with sentiment analysis and intelligent response generation",
+    "category": "Customer Service",
+    "tags": [
+        "customer-support",
+        "automation",
+        "sentiment-analysis",
+        "ai"
+    ],
+    "author": "Workflow Team",
+    "createdAt": "2024-01-15T00:00:00.000Z",
+    "updatedAt": "2024-01-20T00:00:00.000Z",
+    "downloads": 245,
+    "rating": 4.8,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 6,
+    "complexity": "medium",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "input-1",
+                "type": "agent",
+                "position": {
+                    "x": 100,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Customer Input Processor",
+                    "label": "Customer Input Processor",
+                    "description": "Processes incoming customer messages and extracts key information",
+                    "systemPrompt": "You are a customer input processor. Analyze incoming customer messages, extract key information like intent, urgency level, and main concerns. Format the output in a structured way for further processing.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "text-processing",
+                        "intent-recognition",
+                        "data-extraction"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "sentiment-1",
+                "type": "thinker",
+                "position": {
+                    "x": 400,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Sentiment Analyzer",
+                    "label": "Sentiment Analyzer",
+                    "description": "Analyzes the sentiment and emotional tone of customer messages",
+                    "systemPrompt": "Analyze the sentiment and emotional tone of customer messages. Classify sentiment as positive, negative, or neutral. Identify emotional indicators like frustration, satisfaction, urgency, or confusion. Provide a confidence score for your analysis.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "classifier-1",
+                "type": "conditional",
+                "position": {
+                    "x": 700,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Priority Classifier",
+                    "label": "Priority Classifier",
+                    "description": "Routes messages based on sentiment and urgency",
+                    "condition": "if (sentiment === 'negative' && urgency === 'high') { return 'escalate'; } else if (sentiment === 'positive') { return 'standard'; } else { return 'review'; }",
+                    "conditionType": "javascript",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "escalation-agent",
+                "type": "agent",
+                "position": {
+                    "x": 500,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Escalation Handler",
+                    "label": "Escalation Handler",
+                    "description": "Handles high-priority or negative sentiment cases",
+                    "systemPrompt": "You are an escalation handler for customer support. Handle high-priority or negative sentiment cases with empathy and urgency. Provide immediate acknowledgment, escalate to human agents when necessary, and suggest quick resolution steps.",
+                    "model": "gpt-4-turbo",
+                    "capabilities": [
+                        "escalation-handling",
+                        "empathy",
+                        "crisis-management"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "standard-response",
+                "type": "agent",
+                "position": {
+                    "x": 900,
+                    "y": 100
+                },
+                "data": {
+                    "name": "Standard Response Generator",
+                    "label": "Standard Response Generator",
+                    "description": "Generates standard helpful responses for routine inquiries",
+                    "systemPrompt": "Generate helpful, professional responses for standard customer inquiries. Be friendly, informative, and solution-oriented. Include relevant information, next steps, and offer additional assistance.",
+                    "model": "gpt-3.5-turbo",
+                    "capabilities": [
+                        "response-generation",
+                        "knowledge-base",
+                        "help-guidance"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "review-queue",
+                "type": "tool",
+                "position": {
+                    "x": 900,
+                    "y": 300
+                },
+                "data": {
+                    "name": "Review Queue",
+                    "label": "Review Queue",
+                    "description": "Queues messages that need human review",
+                    "parameters": {
+                        "queueType": {
+                            "type": "select",
+                            "options": [
+                                "human-review",
+                                "supervisor-review",
+                                "quality-check"
+                            ],
+                            "placeholder": "Select queue type"
+                        },
+                        "priority": {
+                            "type": "select",
+                            "options": [
+                                "low",
+                                "medium",
+                                "high"
+                            ],
+                            "placeholder": "Set priority level"
+                        }
+                    },
+                    "parameterValues": {
+                        "queueType": "human-review",
+                        "priority": "medium"
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "input-1",
+                "target": "sentiment-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "sentiment-1",
+                "target": "classifier-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-4",
+                "source": "classifier-1",
+                "target": "escalation-agent",
+                "type": "default",
+                "label": "escalate"
+            },
+            {
+                "id": "e3-5",
+                "source": "classifier-1",
+                "target": "standard-response",
+                "type": "default",
+                "label": "standard"
+            },
+            {
+                "id": "e3-6",
+                "source": "classifier-1",
+                "target": "review-queue",
+                "type": "default",
+                "label": "review"
+            }
+        ]
+    }
+}

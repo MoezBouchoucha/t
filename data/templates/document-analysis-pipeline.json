@@ -1,0 +1,198 @@
+{
+    "id": "document-analysis-pipeline",
+    "name": "Document Analysis Pipeline",
+    "description": "Comprehensive document analysis workflow for processing, extracting insights, and generating summaries from various document types",
+    "category": "Document Processing",
+    "tags": [
+        "document-analysis",
+        "text-extraction",
+        "summarization",
+        "insights"
+    ],
+    "author": "Workflow Team",
+    "createdAt": "2024-01-10T00:00:00.000Z",
+    "updatedAt": "2024-01-25T00:00:00.000Z",
+    "downloads": 189,
+    "rating": 4.6,
+    "isPublic": true,
+    "shareLevel": "public",
+    "nodes": 6,
+    "complexity": "complex",
+    "workflow": {
+        "nodes": [
+            {
+                "id": "doc-intake-1",
+                "type": "tool",
+                "position": {
+                    "x": 50,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Document Intake",
+                    "label": "Document Intake",
+                    "description": "Receives and validates incoming documents",
+                    "parameters": {
+                        "supportedFormats": {
+                            "type": "select",
+                            "options": [
+                                "PDF",
+                                "Word",
+                                "Text",
+                                "All"
+                            ],
+                            "placeholder": "Select supported formats"
+                        },
+                        "maxFileSize": {
+                            "type": "text",
+                            "placeholder": "Maximum file size (MB)"
+                        },
+                        "validateContent": {
+                            "type": "boolean",
+                            "label": "Validate document content"
+                        }
+                    },
+                    "parameterValues": {
+                        "supportedFormats": "All",
+                        "maxFileSize": "50",
+                        "validateContent": true
+                    }
+                }
+            },
+            {
+                "id": "text-extractor-1",
+                "type": "agent",
+                "position": {
+                    "x": 350,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Text Extractor",
+                    "label": "Text Extractor",
+                    "description": "Extracts and cleans text content from documents",
+                    "systemPrompt": "You are a text extraction specialist. Extract clean, readable text from various document formats. Remove formatting artifacts, normalize whitespace, and preserve document structure. Handle tables, lists, and special formatting appropriately.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "text-extraction",
+                        "content-cleaning",
+                        "structure-preservation"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "content-analyzer-1",
+                "type": "thinker",
+                "position": {
+                    "x": 650,
+                    "y": 50
+                },
+                "data": {
+                    "name": "Content Analyzer",
+                    "label": "Content Analyzer",
+                    "description": "Analyzes document content for key themes, topics, and insights",
+                    "systemPrompt": "Analyze document content to identify key themes, topics, entities, and insights. Extract important concepts, relationships, and patterns. Categorize content by type and importance level.",
+                    "model": "gpt-4",
+                    "strategy": "analytical",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "summarizer-1",
+                "type": "agent",
+                "position": {
+                    "x": 650,
+                    "y": 250
+                },
+                "data": {
+                    "name": "Document Summarizer",
+                    "label": "Document Summarizer",
+                    "description": "Creates concise summaries of document content",
+                    "systemPrompt": "Create concise, informative summaries of document content. Focus on key points, main arguments, conclusions, and actionable items. Adapt summary length and style based on document type and purpose.",
+                    "model": "gpt-4",
+                    "capabilities": [
+                        "summarization",
+                        "key-point-extraction",
+                        "content-synthesis"
+                    ],
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "insight-generator-1",
+                "type": "thinker",
+                "position": {
+                    "x": 950,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Insight Generator",
+                    "label": "Insight Generator",
+                    "description": "Generates actionable insights and recommendations",
+                    "systemPrompt": "Generate actionable insights and recommendations based on document analysis. Identify opportunities, risks, trends, and strategic implications. Provide practical next steps and decision support.",
+                    "model": "gpt-4-turbo",
+                    "strategy": "creative",
+                    "parameterValues": {}
+                }
+            },
+            {
+                "id": "output-formatter-1",
+                "type": "agent",
+                "position": {
+                    "x": 1250,
+                    "y": 150
+                },
+                "data": {
+                    "name": "Output Formatter",
+                    "label": "Output Formatter",
+                    "description": "Formats final output in requested format",
+                    "systemPrompt": "Format the analysis results into the requested output format. Create professional, well-structured reports with clear sections for summary, insights, recommendations, and supporting details. Ensure consistency and readability.",
+                    "model": "gpt-3.5-turbo",
+                    "capabilities": [
+                        "formatting",
+                        "report-generation",
+                        "presentation"
+                    ],
+                    "parameterValues": {}
+                }
+            }
+        ],
+        "edges": [
+            {
+                "id": "e1-2",
+                "source": "doc-intake-1",
+                "target": "text-extractor-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-3",
+                "source": "text-extractor-1",
+                "target": "content-analyzer-1",
+                "type": "default"
+            },
+            {
+                "id": "e2-4",
+                "source": "text-extractor-1",
+                "target": "summarizer-1",
+                "type": "default"
+            },
+            {
+                "id": "e3-5",
+                "source": "content-analyzer-1",
+                "target": "insight-generator-1",
+                "type": "default"
+            },
+            {
+                "id": "e4-5",
+                "source": "summarizer-1",
+                "target": "insight-generator-1",
+                "type": "default"
+            },
+            {
+                "id": "e5-6",
+                "source": "insight-generator-1",
+                "target": "output-formatter-1",
+                "type": "default"
+            }
+        ]
+    }
+}
